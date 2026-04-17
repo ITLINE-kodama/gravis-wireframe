@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+  var correct = "itline2026";
+  var key = "wf_auth_v2";
+  if(sessionStorage.getItem(key) !== "1"){
+    var pw = prompt("パスワードを入力してください");
+    if(pw !== correct){ document.write('<style>body{display:none}</style>'); alert("パスワードが正しくありません。"); location.reload(); return; }
+    sessionStorage.setItem(key,"1");
+  }
+})();
+</script>
 <title>ワイヤーフレーム｜Public AGENDA ～公共の論点～（Glavisオウンドメディア）</title>
 <style>
   /* ===== RESET & BASE ===== */
