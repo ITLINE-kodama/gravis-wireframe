@@ -3,16 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+#pw-overlay{position:fixed;inset:0;background:#1e2535;display:flex;align-items:center;justify-content:center;z-index:99999;font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif;}
+#pw-box{text-align:center;width:340px;}
+#pw-logo{font-size:26px;font-weight:900;letter-spacing:.02em;margin-bottom:10px;}
+#pw-logo .co{color:#1a5a20;}
+#pw-logo .sep{color:#555;margin:0 10px;font-weight:300;}
+#pw-logo .media{color:#fff;}
+#pw-sub{color:#9aa0b0;font-size:13px;margin-bottom:32px;letter-spacing:.05em;}
+#pw-input{width:100%;padding:14px 16px;border-radius:6px;border:1px solid #3a4055;background:#2a3145;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:14px;letter-spacing:.05em;}
+#pw-input::placeholder{color:#5a6075;}
+#pw-input:focus{border-color:#1a5a20;}
+#pw-btn{width:100%;padding:14px;border-radius:6px;background:#1a5a20;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;letter-spacing:.08em;}
+#pw-btn:hover{background:#236b2a;}
+#pw-err{color:#e06060;font-size:13px;margin-top:10px;min-height:18px;}
+</style>
+<div id="pw-overlay">
+  <div id="pw-box">
+    <div id="pw-logo"><span class="co">Gravis</span><span class="sep">|</span><span class="media">Public AGENDA</span></div>
+    <div id="pw-sub">ワイヤーフレーム閲覧用（関係者限定）</div>
+    <input id="pw-input" type="password" placeholder="パスワードを入力" autocomplete="off">
+    <button id="pw-btn" onclick="checkPw()">閲覧する</button>
+    <div id="pw-err"></div>
+  </div>
+</div>
 <script>
 (function(){
-  var correct = "itline2026";
-  var key = "wf_auth_v2";
-  if(sessionStorage.getItem(key) !== "1"){
-    var pw = prompt("パスワードを入力してください");
-    if(pw !== correct){ document.write('<style>body{display:none}</style>'); alert("パスワードが正しくありません。"); location.reload(); return; }
-    sessionStorage.setItem(key,"1");
+  if(sessionStorage.getItem("wf_auth_v2")==="1"){
+    document.addEventListener("DOMContentLoaded",function(){
+      var el=document.getElementById("pw-overlay");
+      if(el) el.remove();
+    });
   }
+  document.addEventListener("keydown",function(e){if(e.key==="Enter")checkPw();});
 })();
+function checkPw(){
+  var v=document.getElementById("pw-input").value;
+  if(v==="itline2026"){
+    sessionStorage.setItem("wf_auth_v2","1");
+    document.getElementById("pw-overlay").remove();
+  } else {
+    document.getElementById("pw-err").textContent="パスワードが正しくありません";
+    document.getElementById("pw-input").value="";
+    document.getElementById("pw-input").focus();
+  }
+}
 </script>
 <title>ワイヤーフレーム｜Public AGENDA ～公共の論点～（Glavisオウンドメディア）</title>
 <style>
